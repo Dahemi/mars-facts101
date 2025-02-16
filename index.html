@@ -1,94 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mars Facts</title>
     <style>
-        /* CSS Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #f4f4f9;
+      /* CSS Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: url("https://img.freepik.com/premium-vector/mars-surface-alien-planet-landscape-space-game-background_135595-106493.jpg")
+          no-repeat center center/cover;
+      }
+      header {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        background-color: #5c84c1;
+        color: #fff;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+      button:hover {
+        background-color: #466b99;
+      }
+      .card {
+        background-color: #fff;
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        header {
-            margin-bottom: 20px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #fff;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        li:hover {
-            transform: scale(1.02);
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Mars Facts</h1>
-        <input type="text" id="search" placeholder="Search facts...">
+      <h1>Mars Facts</h1>
+      <button id="generate-button">Generate Fact</button>
     </header>
     <main>
-        <ul id="facts-list">
-            <!-- Facts will be dynamically inserted here -->
-        </ul>
+      <div id="fact-card">
+        <!-- A fact will be displayed here -->
+      </div>
     </main>
     <script>
-        // JavaScript Code
-        const facts = [
-            "Mars is the fourth planet from the Sun in our solar system.",
-            "Mars is often referred to as the 'Red Planet' due to its reddish appearance, which is caused by iron oxide (rust) on its surface.",
-            "Mars has the largest volcano in the solar system, Olympus Mons, which is about 13.6 miles (22 kilometers) high.",
-            "The planet has two small moons, Phobos and Deimos, which are thought to be captured asteroids.",
-            "A day on Mars, known as a sol, is approximately 24.6 hours long.",
-            "Mars has a very thin atmosphere composed mostly of carbon dioxide, with traces of nitrogen and argon.",
-            "The surface temperature on Mars can vary greatly, ranging from about -195 degrees Fahrenheit (-125 degrees Celsius) at the poles to 70 degrees Fahrenheit (20 degrees Celsius) at the equator.",
-            "Mars has the largest dust storms in the solar system, which can cover the entire planet and last for months.",
-            "Evidence suggests that Mars once had liquid water on its surface, and it still has polar ice caps made of water and dry ice (frozen carbon dioxide).",
-            "Mars is home to Valles Marineris, one of the largest canyon systems in the solar system, stretching over 2,500 miles (4,000 kilometers) long."
-        ];
+      // JavaScript Code
+      const facts = [
+        "Mars is the fourth planet from the Sun in our solar system.",
+        "Mars is often referred to as the 'Red Planet' due to its reddish appearance, which is caused by iron oxide (rust) on its surface.",
+        "Mars has the largest volcano in the solar system, Olympus Mons, which is about 13.6 miles (22 kilometers) high.",
+        "The planet has two small moons, Phobos and Deimos, which are thought to be captured asteroids.",
+        "A day on Mars, known as a sol, is approximately 24.6 hours long.",
+        "Mars has a very thin atmosphere composed mostly of carbon dioxide, with traces of nitrogen and argon.",
+        "The surface temperature on Mars can vary greatly, ranging from about -195°F (-125°C) at the poles to 70°F (20°C) at the equator.",
+        "Mars has the largest dust storms in the solar system, which can cover the entire planet and last for months.",
+        "Evidence suggests that Mars once had liquid water on its surface, and it still has polar ice caps made of water and dry ice (frozen carbon dioxide).",
+        "Mars is home to Valles Marineris, one of the largest canyon systems in the solar system, stretching over 2,500 miles (4,000 kilometers) long.",
+      ];
 
-        const factsList = document.getElementById('facts-list');
-        const searchInput = document.getElementById('search');
+      const factCard = document.getElementById("fact-card");
+      const generateButton = document.getElementById("generate-button");
 
-        function displayFacts(filteredFacts) {
-            factsList.innerHTML = '';
-            filteredFacts.forEach(fact => {
-                const li = document.createElement('li');
-                li.textContent = fact;
-                factsList.appendChild(li);
-            });
-        }
+      function displayRandomFact() {
+        // Pick one random fact from the array
+        const randomIndex = Math.floor(Math.random() * facts.length);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.textContent = facts[randomIndex];
 
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredFacts = facts.filter(fact => fact.toLowerCase().includes(searchTerm));
-            displayFacts(filteredFacts);
-        });
+        // Replace any existing fact
+        factCard.innerHTML = "";
+        factCard.appendChild(card);
+      }
 
-        // Initial display of all facts
-        displayFacts(facts);
+      generateButton.addEventListener("click", displayRandomFact);
     </script>
-</body>
+  </body>
 </html>
